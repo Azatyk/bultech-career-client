@@ -1,32 +1,66 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div class="desktop-content">
+      <router-view />
     </div>
-    <router-view />
+    <div class="mobile-backdrop">
+      <img
+        src="@/assets/images/space-man.svg"
+        alt="Человек в космосе"
+        class="mobile-backdrop__image"
+      />
+      <p class="mobile-backdrop__description">
+        Приложение пока не работает на мобильных устройствах. Пожалуйста,
+        зайдите с компьютера
+      </p>
+    </div>
   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<script>
+export default {
+  beforeMount() {
+    if (this.$route.fullPath == "/") {
+      this.$router.push("/login");
+    }
+  },
+};
+</script>
+
+<style scoped>
+.mobile-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  background-color: #6b5ce7;
 }
 
-#nav {
-  padding: 30px;
+.mobile-backdrop__image {
+  width: 240px;
+}
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+.mobile-backdrop__description {
+  width: 70%;
+  margin-top: 40px;
+  font-size: 18px;
+  text-align: center;
+  line-height: 1.4;
+}
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+@media all and (max-width: 1100px) {
+  .mobile-backdrop {
+    display: flex;
+  }
+
+  .desktop-content {
+    display: none;
   }
 }
 </style>
