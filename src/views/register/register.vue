@@ -1,5 +1,5 @@
 <template>
-  <div class="login">
+  <div class="register">
     <notification
       :heading="notificationHeading"
       :text="notificationText"
@@ -8,8 +8,18 @@
       @close-notification="isNotificationActive = false"
       @open-notification="isNotificationActive = true"
     />
-    <h1 class="login-page__title">Вход в аккаунт</h1>
+    <h1 class="login-page__title">Регистрация</h1>
     <div class="login-page__inputs">
+      <bultech-input
+        title="Имя"
+        placeholder="Как вас зовут?"
+        class="login-page__input"
+      />
+      <bultech-input
+        title="Фамилия"
+        placeholder="Ваша фамилия"
+        class="login-page__input"
+      />
       <bultech-input
         title="Почта"
         placeholder="Ваша электронная почта для входа"
@@ -23,9 +33,9 @@
       />
     </div>
     <div class="login-page__buttons">
-      <bultech-button :loading="buttonLoading">Войти</bultech-button>
-      <button @click="$router.push('/auth/register')" class="login-page__link">
-        У меня нет аккаунта
+      <bultech-button :loading="buttonLoading">Создать аккаунт</bultech-button>
+      <button @click="$router.push('/auth/login')" class="login-page__link">
+        У меня есть аккаунт
       </button>
     </div>
   </div>
@@ -60,7 +70,7 @@ export default {
 @import "@/assets/styles/variables.scss";
 
 .login-page__title {
-  margin-top: 80px;
+  margin-top: 30px;
   margin-bottom: 20px;
   font-size: 34px;
   font-weight: 500;

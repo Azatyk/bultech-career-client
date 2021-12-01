@@ -1,12 +1,30 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Login from "@/views/login/login";
+import Register from "@/views/register/register";
 import AppLayout from "@/views/layouts/app-layout";
+import AuthLayout from "@/views/layouts/auth-layout";
 import store from "@/store";
 
 Vue.use(VueRouter);
 
 const routes = [
+  {
+    path: "/auth",
+    component: AuthLayout,
+    children: [
+      {
+        path: "login",
+        component: Login,
+        title: "Вход",
+      },
+      {
+        path: "register",
+        component: Register,
+        title: "Регистрация",
+      },
+    ],
+  },
   {
     path: "/login",
     component: Login,
