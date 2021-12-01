@@ -19,12 +19,16 @@ const routes = [
       {
         path: "login",
         component: Login,
-        title: "Вход",
+        meta: {
+          title: "Вход",
+        },
       },
       {
         path: "register",
         component: Register,
-        title: "Регистрация",
+        meta: {
+          title: "Регистрация",
+        },
       },
     ],
   },
@@ -40,6 +44,7 @@ const routes = [
     path: "/app",
     component: AppLayout,
     meta: {
+      title: "Bultech Career",
       needAuth: true,
     },
     children: [],

@@ -14,26 +14,32 @@
         title="Имя"
         placeholder="Как вас зовут?"
         class="login-page__input"
+        v-model="user.firstName"
       />
       <bultech-input
         title="Фамилия"
         placeholder="Ваша фамилия"
         class="login-page__input"
+        v-model="user.lastName"
       />
       <bultech-input
         title="Почта"
         placeholder="Ваша электронная почта для входа"
         class="login-page__input"
+        v-model="user.email"
       />
       <bultech-input
         title="Пароль"
         placeholder="Ваш пароль для входа"
         type="password"
         class="login-page__input"
+        v-model="user.password"
       />
     </div>
     <div class="login-page__buttons">
-      <bultech-button :loading="buttonLoading">Создать аккаунт</bultech-button>
+      <bultech-button :loading="buttonLoading" @click="handleRegister"
+        >Создать аккаунт</bultech-button
+      >
       <button @click="$router.push('/auth/login')" class="login-page__link">
         У меня есть аккаунт
       </button>
@@ -45,7 +51,7 @@
 import bultechInput from "@/components/common/bultech-input";
 import bultechButton from "@/components/common/bultech-button";
 import notification from "@/components/common/notification";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   components: {
@@ -60,9 +66,51 @@ export default {
     notificationStatus: "error",
     isNotificationActive: false,
     buttonLoading: false,
+    user: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+    },
   }),
 
   computed: mapGetters(["isLoggedIn"]),
+
+  methods: {
+    ...mapActions(["register"]),
+
+    handleRegister() {
+      this.buttonLoading = true;
+
+      const registerPayload = {
+        firstName: this.user.firstName,
+        lastName: this.user.lastName,
+        email: this.user.email,
+        password: this.user.password,
+      };
+
+      this.register(registerPayload)
+        .then(() => {
+          this.$router.push("/app");
+        })
+        .catch((error) => {
+          if (error.responce.status === 409) {
+            this.notificationHeading = "Пользователь уже существует";
+            this.notificationText =
+              "На введенную ваши почту уже зарегистрирован аккаунт";
+            this.notificationStatus = "error";
+            this.isNotificationActive = true;
+          } else {
+            this.notificationHeading = "Что-то пошло не так";
+            this.notificationText =
+              "Пожалуйста, перезагрузите страницу и попробуйте снова";
+            this.notificationStatus = "error";
+            this.isNotificationActive = true;
+          }
+        })
+        .finally(() => (this.buttonLoading = false));
+    },
+  },
 };
 </script>
 

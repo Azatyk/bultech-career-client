@@ -17,7 +17,9 @@
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
+@import "@/assets/styles/variables.scss";
+
 .mobile-backdrop {
   position: absolute;
   top: 0;
@@ -29,7 +31,7 @@
   justify-content: center;
   align-items: center;
   color: white;
-  background-color: #6b5ce7;
+  background-color: $primary-color;
 }
 
 .mobile-backdrop__image {

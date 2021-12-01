@@ -9,6 +9,7 @@ export const login = (payload) =>
 
 export const register = (payload) =>
   request({
+    url: "/auth/register",
     method: "POST",
     data: payload,
   }).then((res) => res.data);

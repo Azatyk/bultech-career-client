@@ -1,4 +1,7 @@
-import { login as loginRequest } from "../../requests/auth";
+import {
+  login as loginRequest,
+  register as registerRequest,
+} from "../../requests/auth";
 
 const storeLoggedIn = (isLoggedIn) => {
   if (!isLoggedIn) {
@@ -14,12 +17,17 @@ export default {
   },
 
   actions: {
-    login({ commit }, payload) {
-      return loginRequest(payload).then((data) => {
-        commit("login");
+    async login({ commit }, payload) {
+      const data = await loginRequest(payload);
+      commit("login");
+      return data;
+    },
 
-        return data;
-      });
+    async register({ commit }, payload) {
+      console.log(payload);
+      const data = await registerRequest(payload);
+      commit("login");
+      return data;
     },
   },
 
