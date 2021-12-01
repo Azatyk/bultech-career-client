@@ -14,16 +14,20 @@
         title="Почта"
         placeholder="Ваша электронная почта для входа"
         class="login-page__input"
+        v-model="user.email"
       />
       <bultech-input
         title="Пароль"
         placeholder="Ваш пароль для входа"
         type="password"
         class="login-page__input"
+        v-model="user.password"
       />
     </div>
     <div class="login-page__buttons">
-      <bultech-button :loading="buttonLoading">Войти</bultech-button>
+      <bultech-button :loading="buttonLoading" @click="handleLogin"
+        >Войти</bultech-button
+      >
       <button @click="$router.push('/auth/register')" class="login-page__link">
         У меня нет аккаунта
       </button>
@@ -35,7 +39,7 @@
 import bultechInput from "@/components/common/bultech-input";
 import bultechButton from "@/components/common/bultech-button";
 import notification from "@/components/common/notification";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   components: {
@@ -50,9 +54,47 @@ export default {
     notificationStatus: "error",
     isNotificationActive: false,
     buttonLoading: false,
+    user: {
+      email: "",
+      password: "",
+    },
   }),
 
   computed: mapGetters(["isLoggedIn"]),
+
+  methods: {
+    ...mapActions(["login"]),
+
+    handleLogin() {
+      this.buttonLoading = true;
+
+      const loginPayload = {
+        email: this.user.email,
+        password: this.user.password,
+      };
+
+      this.login(loginPayload)
+        .then(() => {
+          this.$router.push("/app");
+        })
+        .catch((error) => {
+          if (error.response.status === 401) {
+            this.notificationHeading = "Неверные данные";
+            this.notificationText =
+              "Проверьте вашу почту и пароль, что-то из не правильное";
+            this.notificationStatus = "error";
+            this.isNotificationActive = true;
+          } else {
+            this.notificationHeading = "Что-то пошло не так";
+            this.notificationText =
+              "Пожалуйста, перезагрузите страницу и попробуйте снова";
+            this.notificationStatus = "error";
+            this.isNotificationActive = true;
+          }
+        })
+        .finally(() => (this.buttonLoading = false));
+    },
+  },
 };
 </script>
 

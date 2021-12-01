@@ -12,6 +12,9 @@ const routes = [
   {
     path: "/auth",
     component: AuthLayout,
+    meta: {
+      noAuthOnly: true,
+    },
     children: [
       {
         path: "login",
@@ -34,7 +37,7 @@ const routes = [
     },
   },
   {
-    path: "/",
+    path: "/app",
     component: AppLayout,
     meta: {
       needAuth: true,
@@ -55,7 +58,7 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.needAuth)) {
     if (!store.getters.isLoggedIn) {
       next({
-        path: "/login",
+        path: "/auth/login",
         query: { redirect: to.fullPath },
       });
     } else {
@@ -68,7 +71,7 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.noAuthOnly)) {
     if (store.getters.isLoggedIn) {
       next({
-        path: "/bloggers",
+        path: "/app",
         query: { redirect: to.fullPath },
       });
     } else {

@@ -17,16 +17,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  beforeMount() {
-    if (this.$route.fullPath == "/") {
-      this.$router.push("/login");
-    }
-  },
-};
-</script>
-
 <style scoped>
 .mobile-backdrop {
   position: absolute;

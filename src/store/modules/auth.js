@@ -1,3 +1,5 @@
+import { login as loginRequest } from "../../requests/auth";
+
 const storeLoggedIn = (isLoggedIn) => {
   if (!isLoggedIn) {
     localStorage.removeItem("isLoggedIn");
@@ -9,6 +11,16 @@ const storeLoggedIn = (isLoggedIn) => {
 export default {
   state: {
     isLoggedIn: localStorage.getItem("isLoggedIn") || false,
+  },
+
+  actions: {
+    login({ commit }, payload) {
+      return loginRequest(payload).then((data) => {
+        commit("login");
+
+        return data;
+      });
+    },
   },
 
   mutations: {
